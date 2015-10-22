@@ -1,11 +1,19 @@
 package org.wahlzeit.model;
 
-public class Coordinate {
+import java.io.Serializable;
+
+public class Coordinate implements Serializable {
 
     private final double latitude;
     private final double longitude;
 
 
+    /**
+     * Instantiates a new instance of Coordinate
+     * @param latitude The latitude value.
+     * @param longitude The longitude value.
+     * @throws IllegalArgumentException Thrown if either longitude or latitude are not in the range [-360, 360]
+     */
     public Coordinate(double latitude, double longitude) {
 
         if(latitude > 360d || latitude < -360d) {
@@ -30,17 +38,23 @@ public class Coordinate {
         return longitude;
     }
 
-
+    /**
+     * Gets the distance between this Coordiante and another coordinate
+     * @param other The coordinate to calculate the distance to
+     * @return Returns a tuple of latitudinal and longitudinal distance
+     * @throws IllegalArgumentException Thrown if other is nulll
+     */
     public Coordinate getDistance(Coordinate other) {
 
-        if (other == null) {
-            throw new IllegalArgumentException("'other' must not be null");
-        }
-
-        return new Coordinate(this.getLatitude() - other.getLatitude(), this.getLongitude() - other.getLongitude());
+        return new Coordinate(getLatitudinalDistance(other), getLongitudinalDistance(other));
     }
 
-
+    /**
+     * Calculates the latitudinal distance
+     * @param other The coordinate to calculate the distance to
+     * @return Returns the difference between the two Coordinates' latitude componets
+     * @throws IllegalArgumentException Thrown if other is null
+     */
     public double getLatitudinalDistance(Coordinate other) {
         if (other == null) {
             throw new IllegalArgumentException("'other' must not be null");
@@ -49,6 +63,12 @@ public class Coordinate {
         return this.latitude - other.getLatitude();
     }
 
+    /**
+     * Calculates the longitudinal distance
+     * @param other The coordinate to calculate the distance to
+     * @return Returns the difference between the two Coordinates' longitude componets
+     * @throws IllegalArgumentException Thrown if other is null
+     */
     public double getLongitudinalDistance(Coordinate other) {
         if (other == null) {
             throw new IllegalArgumentException("'other' must not be null");
