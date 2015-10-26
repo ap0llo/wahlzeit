@@ -1,8 +1,13 @@
 package org.wahlzeit.model;
 
 import java.io.Serializable;
+import static java.lang.Math.*;
 
 public class Coordinate implements Serializable {
+
+
+    // The radius of earth in kilometers for calculating the distance between two points
+    private final double EARTH_RADIUS = 6371d;
 
     private final double latitude;
     private final double longitude;
@@ -43,9 +48,17 @@ public class Coordinate implements Serializable {
      * @return Returns a tuple of latitudinal and longitudinal distance
      * @throws IllegalArgumentException Thrown if other is nulll
      */
-    public Coordinate getDistance(Coordinate other) {
+    public double getDistance(Coordinate other) {
 
-        return new Coordinate(getLatitudinalDistance(other), getLongitudinalDistance(other));
+        if (other == null) {
+            throw new IllegalArgumentException("'other' must not be null");
+        }
+
+        return EARTH_RADIUS *
+                acos(
+                        (sin(toRadians(this.getLatitude())) * sin(toRadians(other.getLatitude()))) +
+                        (cos(toRadians(this.getLatitude())) * cos(toRadians(other.getLatitude())) * cos(toRadians(other.getLongitude() - this.getLongitude())))
+                ) ;
     }
 
     /**
@@ -59,7 +72,7 @@ public class Coordinate implements Serializable {
             throw new IllegalArgumentException("'other' must not be null");
         }
 
-        return this.latitude - other.getLatitude();
+        return abs(this.latitude - other.getLatitude());
     }
 
     /**
@@ -73,7 +86,7 @@ public class Coordinate implements Serializable {
             throw new IllegalArgumentException("'other' must not be null");
         }
 
-        return this.getLongitude() - other.getLongitude();
+        return abs(this.getLongitude() - other.getLongitude());
     }
 
     @Override

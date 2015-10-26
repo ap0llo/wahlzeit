@@ -13,17 +13,41 @@ public class CoordinateTest {
     Coordinate coordinate1;
     Coordinate coordinate1_instance2;
     Coordinate coordinate2;
+    Coordinate coordinate3;
+    Coordinate coordinate4;
+
+    double distance_0_to_1;
+    double distance_0_to_2;
+    double distance_0_to_3;
+    double distance_0_to_4;
+    double distance_2_to_4;
+
+    // delta for comparisons between expected and calculated distances
+    // (expected distance were calculated with a external tool and hence were rounded differently)
+    static final double DISTANCE_EPSILON = 0.3d;
+
 
     @Before
     public void setUp() {
 
         nullInstance = null;
-        zeroCoordinate = new Coordinate(0, 0);
+        zeroCoordinate = new Coordinate(0.0, 0.0);
 
         coordinate1 = new Coordinate(42.5, 23.42);
         coordinate1_instance2 = new Coordinate(42.5, 23.42);
+        distance_0_to_1 = 5273.5d;
 
         coordinate2 = new Coordinate(13.37, 123.456);
+        distance_0_to_2 = 13614d;
+
+        coordinate3 = new Coordinate(50, 5);
+        distance_0_to_3 = 5580d;
+
+        coordinate4 = new Coordinate(58,3);
+        distance_0_to_4 = 6455;
+
+
+        distance_2_to_4 = 10423.3d;
     }
 
     @Test
@@ -99,7 +123,6 @@ public class CoordinateTest {
         assertFalse(coordinate1.equals(nullInstance));
     }
 
-
     @Test(expected = IllegalArgumentException.class)
     public void test_getDistance_throws_IllegalArgumentException() {
 
@@ -109,29 +132,54 @@ public class CoordinateTest {
     @Test
     public void test_getDistance_of_identity() {
 
-        Coordinate expected = new Coordinate(0, 0);
+        double expected = 0;
 
-        assertEquals(expected, zeroCoordinate.getDistance(zeroCoordinate));
-        assertEquals(expected, coordinate1.getDistance(coordinate1));
-        assertEquals(expected, coordinate1_instance2.getDistance(coordinate1_instance2));
+        assertEquals(expected, zeroCoordinate.getDistance(zeroCoordinate), 0.0);
+        assertEquals(expected, coordinate1.getDistance(coordinate1), 0.0);
+        assertEquals(expected, coordinate1_instance2.getDistance(coordinate1_instance2), 0.0);
     }
 
     @Test
-    public void test_getDistance_from_zero_coordinate_returns_value_equal_to_original_value() {
+    public void test_getDistance_to_zero() {
 
-        assertEquals(coordinate1, coordinate1_instance2.getDistance(zeroCoordinate));
-        assertEquals(coordinate2, coordinate2.getDistance(zeroCoordinate));
+        assertEquals(distance_0_to_1, coordinate1.getDistance(zeroCoordinate), DISTANCE_EPSILON);
+        assertEquals(distance_0_to_2, coordinate2.getDistance(zeroCoordinate), DISTANCE_EPSILON);
+        assertEquals(distance_0_to_3, coordinate3.getDistance(zeroCoordinate), DISTANCE_EPSILON);
+        assertEquals(distance_0_to_4, coordinate4.getDistance(zeroCoordinate), DISTANCE_EPSILON);
+
     }
 
     @Test
-    public void test_getDistance_returns_correct_distance() {
+    public void test_getDistance(){
 
-        Coordinate expected = new Coordinate(coordinate1.getLatitude() - coordinate2.getLatitude(),
-                coordinate1.getLongitude() - coordinate2.getLongitude());
-
-        assertEquals(expected, coordinate1.getDistance(coordinate2));
+        assertEquals(distance_2_to_4, coordinate2.getDistance(coordinate4), DISTANCE_EPSILON);
     }
 
+    @Test
+    public void test_getDistance_parameters_can_be_swapped(){
+
+        assertEquals(coordinate1.getDistance(zeroCoordinate), zeroCoordinate.getDistance(coordinate1), 0.0);
+        assertEquals(coordinate2.getDistance(zeroCoordinate), zeroCoordinate.getDistance(coordinate2), 0.0);
+        assertEquals(coordinate3.getDistance(zeroCoordinate), zeroCoordinate.getDistance(coordinate3), 0.0);
+        assertEquals(coordinate4.getDistance(zeroCoordinate), zeroCoordinate.getDistance(coordinate4), 0.0);
+
+        assertEquals(coordinate1.getDistance(coordinate2), coordinate2.getDistance(coordinate1), 0.0);
+        assertEquals(coordinate2.getDistance(coordinate2), coordinate2.getDistance(coordinate2), 0.0);
+        assertEquals(coordinate3.getDistance(coordinate2), coordinate2.getDistance(coordinate3), 0.0);
+        assertEquals(coordinate4.getDistance(coordinate2), coordinate2.getDistance(coordinate4), 0.0);
+
+        assertEquals(coordinate1.getDistance(coordinate3), coordinate3.getDistance(coordinate1), 0.0);
+        assertEquals(coordinate2.getDistance(coordinate3), coordinate3.getDistance(coordinate2), 0.0);
+        assertEquals(coordinate3.getDistance(coordinate3), coordinate3.getDistance(coordinate3), 0.0);
+        assertEquals(coordinate4.getDistance(coordinate3), coordinate3.getDistance(coordinate4), 0.0);
+
+
+        assertEquals(coordinate1.getDistance(coordinate4), coordinate4.getDistance(coordinate1), 0.0);
+        assertEquals(coordinate2.getDistance(coordinate4), coordinate4.getDistance(coordinate2), 0.0);
+        assertEquals(coordinate3.getDistance(coordinate4), coordinate4.getDistance(coordinate3), 0.0);
+        assertEquals(coordinate4.getDistance(coordinate4), coordinate4.getDistance(coordinate4), 0.0);
+
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_getLatitudinalDistance_throws_IllegalArgumentException() {
@@ -141,8 +189,13 @@ public class CoordinateTest {
 
     @Test
     public void test_getLatitudinalDistance() {
-
         assertEquals(coordinate1.getLatitude() - coordinate2.getLatitude(), coordinate1.getLatitudinalDistance(coordinate2), 0);
+    }
+
+
+    @Test
+    public void test_getLatitudinalDistance_parameters_can_be_swapped() {
+        assertEquals(coordinate1.getLatitudinalDistance(coordinate2), coordinate2.getLatitudinalDistance(coordinate1), 0.0);
     }
 
 
@@ -154,8 +207,13 @@ public class CoordinateTest {
 
     @Test
     public void test_getLongitudinalDistance() {
+        assertEquals(Math.abs(coordinate1.getLongitude() - coordinate2.getLongitude()), coordinate1.getLongitudinalDistance(coordinate2), 0);
+    }
 
-        assertEquals(coordinate1.getLongitude() - coordinate2.getLongitude(), coordinate1.getLongitudinalDistance(coordinate2), 0);
+
+    @Test
+    public void test_getLongitudinalDistance_parameters_can_be_swapped() {
+        assertEquals(coordinate1.getLongitudinalDistance(coordinate2), coordinate2.getLongitudinalDistance(coordinate1), 0.0);
     }
 
 }
