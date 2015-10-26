@@ -50,9 +50,7 @@ public class Coordinate implements Serializable {
      */
     public double getDistance(Coordinate other) {
 
-        if (other == null) {
-            throw new IllegalArgumentException("'other' must not be null");
-        }
+        ensureCoordinateIsNotNull(other);
 
         return EARTH_RADIUS *
                 acos(
@@ -68,10 +66,8 @@ public class Coordinate implements Serializable {
      * @throws IllegalArgumentException Thrown if other is null
      */
     public double getLatitudinalDistance(Coordinate other) {
-        if (other == null) {
-            throw new IllegalArgumentException("'other' must not be null");
-        }
 
+        ensureCoordinateIsNotNull(other);
         return abs(this.latitude - other.getLatitude());
     }
 
@@ -82,10 +78,8 @@ public class Coordinate implements Serializable {
      * @throws IllegalArgumentException Thrown if other is null
      */
     public double getLongitudinalDistance(Coordinate other) {
-        if (other == null) {
-            throw new IllegalArgumentException("'other' must not be null");
-        }
 
+        ensureCoordinateIsNotNull(other);
         return abs(this.getLongitude() - other.getLongitude());
     }
 
@@ -112,6 +106,12 @@ public class Coordinate implements Serializable {
             return false;
         } else {
             return this == other || (this.getLatitude() == other.getLatitude() && this.getLongitude() == other.getLongitude());
+        }
+    }
+
+    private void ensureCoordinateIsNotNull(Coordinate coordinate){
+        if (coordinate == null) {
+            throw new IllegalArgumentException("coordinate must not be null");
         }
     }
 }
