@@ -27,32 +27,57 @@ public class CoordinateTest {
     }
 
     @Test
-    public void test_Constructor_allows_values_between_minus360_and_360() {
-        new Coordinate(360, 0);
-        new Coordinate(-360, 0);
-        new Coordinate(0, 360);
-        new Coordinate(0, -360);
+    public void test_Constructor_allows_latitude_values_between_minus90_and_90() {
+        new Coordinate(90, 0);
+        new Coordinate(-90, 0);
+    }
+
+    @Test
+    public void test_Constructor_allows_longitude_values_between_minus180_and_180() {
+        new Coordinate(0, 180);
+        new Coordinate(0, -180);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_Constructor_throws_IllegalArgumentException_1() {
-        new Coordinate(361, 0);
+    public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_1() {
+        new Coordinate(-91, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_Constructor_throws_IllegalArgumentException_2() {
-        new Coordinate(-361, 0);
+    public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_2() {
+        new Coordinate(-145, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_Constructor_throws_IllegalArgumentException_3() {
-        new Coordinate(0, 361);
+    public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_1() {
+        new Coordinate(91, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_Constructor_throws_IllegalArgumentException_4() {
-        new Coordinate(0, - 361);
+    public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_2() {
+        new Coordinate(123, 0);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_1() {
+        new Coordinate(0, -181);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_2() {
+        new Coordinate(0, -567);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_1() {
+        new Coordinate(0, 181);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_2() {
+        new Coordinate(0, 256);
+    }
+
     @Test
     public void test_hashCode_is_equal_for_equal_instances() {
 

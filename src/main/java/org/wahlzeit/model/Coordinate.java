@@ -16,14 +16,13 @@ public class Coordinate implements Serializable {
      */
     public Coordinate(double latitude, double longitude) {
 
-        if(latitude > 360d || latitude < -360d) {
-            throw new IllegalArgumentException("Latitude must be in range [-360, 360]");
+        if(latitude > 90d || latitude < -90d) {
+            throw new IllegalArgumentException("Latitude must be in range [-90, 90]");
         }
 
-        if(longitude > 360d || longitude < -360d) {
-            throw new IllegalArgumentException("Longitude must be in range [-360, 360]");
+        if(longitude > 180d || longitude < -180d) {
+            throw new IllegalArgumentException("Longitude must be in range [-180, 180]");
         }
-
 
         this.latitude = latitude;
         this.longitude = longitude;
