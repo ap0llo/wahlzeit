@@ -7,6 +7,15 @@ public class ConcertPhoto extends Photo {
     private String genre;
 
 
+    public ConcertPhoto() {
+        super();
+    }
+
+    public ConcertPhoto(PhotoId photoId) {
+        super(photoId);
+    }
+
+
     /***
      * @methodtype get
      * @methodproperty primitive
