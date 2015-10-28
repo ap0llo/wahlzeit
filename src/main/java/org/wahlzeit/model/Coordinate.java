@@ -33,11 +33,18 @@ public class Coordinate implements Serializable {
         this.longitude = longitude;
     }
 
-
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
     public double getLongitude() {
         return longitude;
     }
@@ -46,7 +53,9 @@ public class Coordinate implements Serializable {
      * Gets the distance between this Coordiante and another coordinate
      * @param other The coordinate to calculate the distance to
      * @return Returns a tuple of latitudinal and longitudinal distance
-     * @throws IllegalArgumentException Thrown if other is nulll
+     * @throws IllegalArgumentException Thrown if other is null
+     * @methodtype get
+     * @methodproperty composed
      */
     public double getDistance(Coordinate other) {
 
@@ -64,6 +73,8 @@ public class Coordinate implements Serializable {
      * @param other The coordinate to calculate the distance to
      * @return Returns the difference between the two Coordinates' latitude componets
      * @throws IllegalArgumentException Thrown if other is null
+     * @methodtype get
+     * @methodproperty composed
      */
     public double getLatitudinalDistance(Coordinate other) {
 
@@ -76,6 +87,8 @@ public class Coordinate implements Serializable {
      * @param other The coordinate to calculate the distance to
      * @return Returns the difference between the two Coordinates' longitude componets
      * @throws IllegalArgumentException Thrown if other is null
+     * @methodtype get
+     * @methodproperty composed
      */
     public double getLongitudinalDistance(Coordinate other) {
 
@@ -83,6 +96,10 @@ public class Coordinate implements Serializable {
         return abs(this.getLongitude() - other.getLongitude());
     }
 
+    /**
+     * @methodtype get
+     * @methodproperty composed
+     */
     @Override
     public int hashCode() {
 
@@ -90,6 +107,10 @@ public class Coordinate implements Serializable {
                 Double.valueOf(this.longitude).hashCode();
     }
 
+    /**
+     * @methodtype boolean-query
+     * @methodproperty composed
+     */
     @Override
     public boolean equals(Object other) {
 
@@ -100,6 +121,10 @@ public class Coordinate implements Serializable {
         }
     }
 
+    /**
+     * @methodtype boolean-query
+     * @methodproperty primitive
+     */
     public boolean equals(Coordinate other) {
 
         if (other == null) {
@@ -109,6 +134,11 @@ public class Coordinate implements Serializable {
         }
     }
 
+    /**
+     *
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
     private void ensureCoordinateIsNotNull(Coordinate coordinate){
         if (coordinate == null) {
             throw new IllegalArgumentException("coordinate must not be null");
