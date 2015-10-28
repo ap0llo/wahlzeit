@@ -132,7 +132,7 @@ public class Photo extends DataObject {
 	Key parent = ObjectManager.applicationRootKey;
 
 
-	protected Coordinate location;
+	protected Location location;
 
 
 	/**
@@ -425,12 +425,12 @@ public class Photo extends DataObject {
 
 
 
-	public Coordinate getLocation(){
+	public Location getLocation(){
 		return location;
 	}
 
 
-	public void setLocation(Coordinate value) {
+	public void setLocation(Location value) {
 		this.location = value;
 		incWriteCount();
 	}
