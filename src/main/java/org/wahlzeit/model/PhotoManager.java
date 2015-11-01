@@ -43,12 +43,12 @@ import java.util.logging.Logger;
 /**
  * A photo manager provides access to and manages photos.
  */
-public class PhotoManager extends ObjectManager {
+public abstract class PhotoManager extends ObjectManager {
 
 	/**
 	 *
 	 */
-	protected static final PhotoManager instance = new PhotoManager();
+	protected static final PhotoManager instance = new ConcertPhotoManager();
 
 	private static final Logger log = Logger.getLogger(PhotoManager.class.getName());
 
