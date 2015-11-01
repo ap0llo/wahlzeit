@@ -2,6 +2,7 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.services.LogBuilder;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ConcertPhotoFactory extends PhotoFactory {
@@ -57,7 +58,10 @@ public class ConcertPhotoFactory extends PhotoFactory {
      */
     @Override
     public ConcertPhoto createPhoto() {
-        return new ConcertPhoto();
+        ConcertPhoto result = new ConcertPhoto();
+        result.setArtistName(UUID.randomUUID().toString());
+        result.setGenre(UUID.randomUUID().toString());
+        return result;
     }
 
     /**
@@ -65,7 +69,10 @@ public class ConcertPhotoFactory extends PhotoFactory {
      */
     @Override
     public ConcertPhoto createPhoto(PhotoId id) {
-        return new ConcertPhoto(id);
+        ConcertPhoto result = new ConcertPhoto(id);
+        result.setArtistName(UUID.randomUUID().toString());
+        result.setGenre(UUID.randomUUID().toString());
+        return result;
     }
 
 
