@@ -6,9 +6,9 @@ public class Location implements Serializable {
 
 
     private String name;
-    private Coordinate coordinate;
+    private SphericCoordinate coordinate;
 
-    public Location(String name, Coordinate coordinate) {
+    public Location(String name, SphericCoordinate coordinate) {
 
         if(name == null || name.trim().length() == 0) {
             throw new IllegalArgumentException("'name' must not be null or empty");
@@ -36,7 +36,7 @@ public class Location implements Serializable {
      * @methodtype get
      * @methodproperty primitive
      */
-    public Coordinate getCoordinate() {
+    public SphericCoordinate getCoordinate() {
         return this.coordinate;
     }
 

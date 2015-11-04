@@ -3,7 +3,7 @@ package org.wahlzeit.model;
 import java.io.Serializable;
 import static java.lang.Math.*;
 
-public class Coordinate implements Serializable {
+public class SphericCoordinate implements Serializable {
 
 
     // The radius of earth in kilometers for calculating the distance between two points
@@ -14,12 +14,12 @@ public class Coordinate implements Serializable {
 
 
     /**
-     * Instantiates a new instance of Coordinate
+     * Instantiates a new instance of SphericCoordinate
      * @param latitude The latitude value.
      * @param longitude The longitude value.
      * @throws IllegalArgumentException Thrown if either longitude or latitude are not in the range [-360, 360]
      */
-    public Coordinate(double latitude, double longitude) {
+    public SphericCoordinate(double latitude, double longitude) {
 
         if(latitude > 90d || latitude < -90d) {
             throw new IllegalArgumentException("Latitude must be in range [-90, 90]");
@@ -57,7 +57,7 @@ public class Coordinate implements Serializable {
      * @methodtype get
      * @methodproperty composed
      */
-    public double getDistance(Coordinate other) {
+    public double getDistance(SphericCoordinate other) {
 
         ensureCoordinateIsNotNull(other);
 
@@ -76,7 +76,7 @@ public class Coordinate implements Serializable {
      * @methodtype get
      * @methodproperty composed
      */
-    public double getLatitudinalDistance(Coordinate other) {
+    public double getLatitudinalDistance(SphericCoordinate other) {
 
         ensureCoordinateIsNotNull(other);
         return abs(this.latitude - other.getLatitude());
@@ -90,7 +90,7 @@ public class Coordinate implements Serializable {
      * @methodtype get
      * @methodproperty composed
      */
-    public double getLongitudinalDistance(Coordinate other) {
+    public double getLongitudinalDistance(SphericCoordinate other) {
 
         ensureCoordinateIsNotNull(other);
         return abs(this.getLongitude() - other.getLongitude());
@@ -114,8 +114,8 @@ public class Coordinate implements Serializable {
     @Override
     public boolean equals(Object other) {
 
-        if (other instanceof Coordinate) {
-            return equals((Coordinate) other);
+        if (other instanceof SphericCoordinate) {
+            return equals((SphericCoordinate) other);
         } else {
             return false;
         }
@@ -125,7 +125,7 @@ public class Coordinate implements Serializable {
      * @methodtype boolean-query
      * @methodproperty primitive
      */
-    public boolean equals(Coordinate other) {
+    public boolean equals(SphericCoordinate other) {
 
         if (other == null) {
             return false;
@@ -139,7 +139,7 @@ public class Coordinate implements Serializable {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    private void ensureCoordinateIsNotNull(Coordinate coordinate){
+    private void ensureCoordinateIsNotNull(SphericCoordinate coordinate){
         if (coordinate == null) {
             throw new IllegalArgumentException("coordinate must not be null");
         }

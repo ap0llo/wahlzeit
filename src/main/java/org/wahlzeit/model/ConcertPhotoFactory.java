@@ -39,7 +39,7 @@ public class ConcertPhotoFactory extends PhotoFactory {
      */
     protected static synchronized void setInstance(ConcertPhotoFactory photoFactory) {
         if (instance != null) {
-            throw new IllegalStateException("attempt to initalize PhotoFactory twice");
+            throw new IllegalStateException("attempt to initialize PhotoFactory twice");
         }
 
         instance = photoFactory;

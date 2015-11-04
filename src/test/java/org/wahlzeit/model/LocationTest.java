@@ -15,23 +15,23 @@ public class LocationTest {
     @Before
     public void setUp() {
 
-        location1 = new Location("LocationName", new Coordinate(12.3, 4.56));
-        location1_instance2 = new Location("LocationName", new Coordinate(12.3, 4.56));
+        location1 = new Location("LocationName", new SphericCoordinate(12.3, 4.56));
+        location1_instance2 = new Location("LocationName", new SphericCoordinate(12.3, 4.56));
 
-        location2 = new Location("SomeOtherName", new Coordinate(12.3, 4.56));
+        location2 = new Location("SomeOtherName", new SphericCoordinate(12.3, 4.56));
 
-        location3 = new Location("LocationName", new Coordinate(1.23, 45.6));
+        location3 = new Location("LocationName", new SphericCoordinate(1.23, 45.6));
 
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Name_must_not_be_null() {
-        new Location(null, new Coordinate(0,0));
+        new Location(null, new SphericCoordinate(0,0));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Name_must_not_be_empty() {
-        new Location("", new Coordinate(0,0));
+        new Location("", new SphericCoordinate(0,0));
     }
 
     @Test(expected = IllegalArgumentException.class)

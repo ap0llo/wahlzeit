@@ -6,15 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class CoordinateTest {
+public class SphericCoordinateTest {
 
-    Coordinate nullInstance;
-    Coordinate zeroCoordinate;
-    Coordinate coordinate1;
-    Coordinate coordinate1_instance2;
-    Coordinate coordinate2;
-    Coordinate coordinate3;
-    Coordinate coordinate4;
+    SphericCoordinate nullInstance;
+    SphericCoordinate zeroCoordinate;
+    SphericCoordinate coordinate1;
+    SphericCoordinate coordinate1_instance2;
+    SphericCoordinate coordinate2;
+    SphericCoordinate coordinate3;
+    SphericCoordinate coordinate4;
 
     double distance_0_to_1;
     double distance_0_to_2;
@@ -31,19 +31,19 @@ public class CoordinateTest {
     public void setUp() {
 
         nullInstance = null;
-        zeroCoordinate = new Coordinate(0.0, 0.0);
+        zeroCoordinate = new SphericCoordinate(0.0, 0.0);
 
-        coordinate1 = new Coordinate(42.5, 23.42);
-        coordinate1_instance2 = new Coordinate(42.5, 23.42);
+        coordinate1 = new SphericCoordinate(42.5, 23.42);
+        coordinate1_instance2 = new SphericCoordinate(42.5, 23.42);
         distance_0_to_1 = 5273.5d;
 
-        coordinate2 = new Coordinate(13.37, 123.456);
+        coordinate2 = new SphericCoordinate(13.37, 123.456);
         distance_0_to_2 = 13614d;
 
-        coordinate3 = new Coordinate(50, 5);
+        coordinate3 = new SphericCoordinate(50, 5);
         distance_0_to_3 = 5580d;
 
-        coordinate4 = new Coordinate(58,3);
+        coordinate4 = new SphericCoordinate(58,3);
         distance_0_to_4 = 6455;
 
 
@@ -52,54 +52,54 @@ public class CoordinateTest {
 
     @Test
     public void test_Constructor_allows_latitude_values_between_minus90_and_90() {
-        new Coordinate(90, 0);
-        new Coordinate(-90, 0);
+        new SphericCoordinate(90, 0);
+        new SphericCoordinate(-90, 0);
     }
 
     @Test
     public void test_Constructor_allows_longitude_values_between_minus180_and_180() {
-        new Coordinate(0, 180);
-        new Coordinate(0, -180);
+        new SphericCoordinate(0, 180);
+        new SphericCoordinate(0, -180);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_1() {
-        new Coordinate(-91, 0);
+        new SphericCoordinate(-91, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_2() {
-        new Coordinate(-145, 0);
+        new SphericCoordinate(-145, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_1() {
-        new Coordinate(91, 0);
+        new SphericCoordinate(91, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_2() {
-        new Coordinate(123, 0);
+        new SphericCoordinate(123, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_1() {
-        new Coordinate(0, -181);
+        new SphericCoordinate(0, -181);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_2() {
-        new Coordinate(0, -567);
+        new SphericCoordinate(0, -567);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_1() {
-        new Coordinate(0, 181);
+        new SphericCoordinate(0, 181);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_2() {
-        new Coordinate(0, 256);
+        new SphericCoordinate(0, 256);
     }
 
     @Test
