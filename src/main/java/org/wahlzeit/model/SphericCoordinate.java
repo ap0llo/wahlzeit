@@ -33,6 +33,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         this.longitude = longitude;
     }
 
+
     /**
      * @methodtype get
      * @methodproperty primitive
@@ -49,33 +50,6 @@ public class SphericCoordinate extends AbstractCoordinate {
         return longitude;
     }
 
-    /**
-     * Gets the distance between this Coordinate and another coordinate
-     * @param other The coordinate to calculate the distance to
-     * @return Returns a tuple of latitudinal and longitudinal distance
-     * @throws IllegalArgumentException Thrown if other is null
-     * @methodtype get
-     * @methodproperty composed
-     */
-    @Override
-    public double getDistance(Coordinate other) {
-
-        ensureIsSphericCoordinate(other);
-        ensureCoordinateIsNotNull(other);
-
-        SphericCoordinate coordinate = (SphericCoordinate) other;
-
-        return EARTH_RADIUS *
-                acos(
-                        (sin(toRadians(this.getLatitude())) * sin(toRadians(coordinate.getLatitude()))) +
-                        (cos(toRadians(this.getLatitude())) * cos(toRadians(coordinate.getLatitude())) * cos(toRadians(coordinate.getLongitude() - this.getLongitude())))
-                ) ;
-    }
-
-    @Override
-    public boolean isEqual(Coordinate other) {
-        return equals(other);
-    }
 
     /**
      * Calculates the latitudinal distance
@@ -143,18 +117,21 @@ public class SphericCoordinate extends AbstractCoordinate {
         }
     }
 
-    /**
-     *
-     * @methodtype assertion
-     * @methodproperty primitive
-     */
-    private void ensureCoordinateIsNotNull(Coordinate coordinate){
-        if (coordinate == null) {
-            throw new IllegalArgumentException("coordinate must not be null");
-        }
+
+    @Override
+    protected double doGetDistance(Coordinate other) {
+
+        SphericCoordinate coordinate = (SphericCoordinate) other;
+        return EARTH_RADIUS *
+                acos(
+                        (sin(toRadians(this.getLatitude())) * sin(toRadians(coordinate.getLatitude()))) +
+                                (cos(toRadians(this.getLatitude())) * cos(toRadians(coordinate.getLatitude())) * cos(toRadians(coordinate.getLongitude() - this.getLongitude())))
+                ) ;
     }
 
-    private void ensureIsSphericCoordinate(Coordinate coordinate) {
+
+    @Override
+    protected void ensureCanGetDistance(Coordinate coordinate) {
         if(!(coordinate instanceof SphericCoordinate)) {
             throw new IllegalArgumentException("coordinate must be an instance of SphericCoordinate");
         }
