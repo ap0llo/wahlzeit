@@ -3,7 +3,7 @@ package org.wahlzeit.model;
 import java.io.Serializable;
 import static java.lang.Math.*;
 
-public class SphericCoordinate implements Serializable {
+public class SphericCoordinate extends AbstractCoordinate {
 
 
     // The radius of earth in kilometers for calculating the distance between two points
@@ -50,22 +50,31 @@ public class SphericCoordinate implements Serializable {
     }
 
     /**
-     * Gets the distance between this Coordiante and another coordinate
+     * Gets the distance between this Coordinate and another coordinate
      * @param other The coordinate to calculate the distance to
      * @return Returns a tuple of latitudinal and longitudinal distance
      * @throws IllegalArgumentException Thrown if other is null
      * @methodtype get
      * @methodproperty composed
      */
-    public double getDistance(SphericCoordinate other) {
+    @Override
+    public double getDistance(Coordinate other) {
 
+        ensureIsSphericCoordinate(other);
         ensureCoordinateIsNotNull(other);
+
+        SphericCoordinate coordinate = (SphericCoordinate) other;
 
         return EARTH_RADIUS *
                 acos(
-                        (sin(toRadians(this.getLatitude())) * sin(toRadians(other.getLatitude()))) +
-                        (cos(toRadians(this.getLatitude())) * cos(toRadians(other.getLatitude())) * cos(toRadians(other.getLongitude() - this.getLongitude())))
+                        (sin(toRadians(this.getLatitude())) * sin(toRadians(coordinate.getLatitude()))) +
+                        (cos(toRadians(this.getLatitude())) * cos(toRadians(coordinate.getLatitude())) * cos(toRadians(coordinate.getLongitude() - this.getLongitude())))
                 ) ;
+    }
+
+    @Override
+    public boolean isEqual(Coordinate other) {
+        return equals(other);
     }
 
     /**
@@ -139,9 +148,15 @@ public class SphericCoordinate implements Serializable {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    private void ensureCoordinateIsNotNull(SphericCoordinate coordinate){
+    private void ensureCoordinateIsNotNull(Coordinate coordinate){
         if (coordinate == null) {
             throw new IllegalArgumentException("coordinate must not be null");
+        }
+    }
+
+    private void ensureIsSphericCoordinate(Coordinate coordinate) {
+        if(!(coordinate instanceof SphericCoordinate)) {
+            throw new IllegalArgumentException("coordinate must be an instance of SphericCoordinate");
         }
     }
 }

@@ -216,4 +216,20 @@ public class SphericCoordinateTest {
         assertEquals(coordinate1.getLongitudinalDistance(coordinate2), coordinate2.getLongitudinalDistance(coordinate1), 0.0);
     }
 
+    @Test
+    public void test_isEqual_returns_true_if_both_components_are_the_same() {
+
+        assertEquals(zeroCoordinate, zeroCoordinate);
+        assertEquals(coordinate1, coordinate1_instance2);
+        assertNotEquals(coordinate1, zeroCoordinate);
+    }
+
+    @Test
+    public void test_isEqual_returns_false_for_null_arguments() {
+
+        assertFalse(zeroCoordinate.equals(null));
+        assertFalse(coordinate1.equals(nullInstance));
+    }
+
+
 }
