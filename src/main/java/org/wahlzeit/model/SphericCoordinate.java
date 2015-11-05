@@ -5,21 +5,27 @@ import static java.lang.Math.*;
 
 public class SphericCoordinate extends AbstractCoordinate {
 
-
     // The radius of earth in kilometers for calculating the distance between two points
-    private final double EARTH_RADIUS = 6371d;
+    private static final double EARTH_RADIUS = 6371d;
 
     private final double latitude;
     private final double longitude;
+    private final double radius;
 
+
+    public SphericCoordinate(double latitude, double longitude) {
+
+        this(latitude, longitude, EARTH_RADIUS);
+    }
 
     /**
      * Instantiates a new instance of SphericCoordinate
      * @param latitude The latitude value.
      * @param longitude The longitude value.
+     * @param radius The sphere's radius
      * @throws IllegalArgumentException Thrown if either longitude or latitude are not in the range [-360, 360]
      */
-    public SphericCoordinate(double latitude, double longitude) {
+    public SphericCoordinate(double latitude, double longitude, double radius) {
 
         if(latitude > 90d || latitude < -90d) {
             throw new IllegalArgumentException("Latitude must be in range [-90, 90]");
@@ -29,9 +35,15 @@ public class SphericCoordinate extends AbstractCoordinate {
             throw new IllegalArgumentException("Longitude must be in range [-180, 180]");
         }
 
+        if(!(radius >= 0)) {
+         throw new IllegalArgumentException("Radius must be positive");
+        }
+
         this.latitude = latitude;
         this.longitude = longitude;
+        this.radius = radius;
     }
+
 
 
     /**
@@ -48,6 +60,14 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     public double getLongitude() {
         return longitude;
+    }
+
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    public double getRadius() {
+        return radius;
     }
 
 
@@ -87,46 +107,27 @@ public class SphericCoordinate extends AbstractCoordinate {
     public int hashCode() {
 
         return Double.valueOf(this.latitude).hashCode() |
-                Double.valueOf(this.longitude).hashCode();
-    }
-
-    /**
-     * @methodtype boolean-query
-     * @methodproperty composed
-     */
-    @Override
-    public boolean equals(Object other) {
-
-        if (other instanceof SphericCoordinate) {
-            return equals((SphericCoordinate) other);
-        } else {
-            return false;
-        }
+                Double.valueOf(this.longitude).hashCode() |
+                Double.valueOf(this.radius).hashCode();
     }
 
     /**
      * @methodtype boolean-query
      * @methodproperty primitive
      */
-    public boolean equals(SphericCoordinate other) {
+    @Override
+    protected boolean doIsEqual(Coordinate c) {
 
-        if (other == null) {
-            return false;
-        } else {
-            return this == other || (this.getLatitude() == other.getLatitude() && this.getLongitude() == other.getLongitude());
-        }
+        SphericCoordinate other = (SphericCoordinate)c;
+        return this == other || (this.getLatitude() == other.getLatitude() && this.getLongitude() == other.getLongitude() && this.getRadius() == other.getRadius());
+
     }
-
 
     @Override
     protected double doGetDistance(Coordinate other) {
 
         SphericCoordinate coordinate = (SphericCoordinate) other;
-        return EARTH_RADIUS *
-                acos(
-                        (sin(toRadians(this.getLatitude())) * sin(toRadians(coordinate.getLatitude()))) +
-                                (cos(toRadians(this.getLatitude())) * cos(toRadians(coordinate.getLatitude())) * cos(toRadians(coordinate.getLongitude() - this.getLongitude())))
-                ) ;
+        return this.asCartesianCoordinate().getDistance(coordinate.asCartesianCoordinate());
     }
 
 
@@ -136,4 +137,13 @@ public class SphericCoordinate extends AbstractCoordinate {
             throw new IllegalArgumentException("coordinate must be an instance of SphericCoordinate");
         }
     }
+
+    protected CartesianCoordinate asCartesianCoordinate() {
+        return new CartesianCoordinate(
+                radius * sin(toRadians(longitude)) * cos(toRadians(latitude)),
+                radius * sin(toRadians(longitude)) * sin(toRadians(latitude)),
+                radius * sin(toRadians(longitude))
+        );
+    }
+
 }

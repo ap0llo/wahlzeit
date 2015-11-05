@@ -2,6 +2,8 @@ package org.wahlzeit.model;
 
 public abstract class AbstractCoordinate extends Coordinate {
 
+    //region Public Interface
+
     /**
      * Gets the distance between this Coordinate and another coordinate
      * @param other The coordinate to calculate the distance to
@@ -19,22 +21,66 @@ public abstract class AbstractCoordinate extends Coordinate {
         return doGetDistance(other);
     }
 
+    /**
+     * Determines whether this instance of coordinate is equal to the specified coordinate.
+     * Another Coordinate is considered equal if both instances are of the same type and describe the same point
+     * @methodproperty composed
+     * @methodtype boolean-query
+     */
     @Override
-    public boolean isEqual(Coordinate coordinate) {
+    public boolean isEqual(Coordinate other) {
 
-        // just use equals() implementation for now
-        return equals(coordinate);
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        return doIsEqual(other);
     }
 
+    /**
+     * @methodproperty composed
+     * @methodtype boolean-query
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Coordinate && isEqual((Coordinate) other);
+    }
 
+    //endregion
 
+    // region Inheritance interface
+
+    /**
+     * @methodtype get
+     * @methodproperty composed
+     */
     // force reimplementation of hashCode() in subclasses
     public abstract int hashCode();
 
-    // force reimplementation of equals() in subclasses
-    public abstract boolean equals(Object other);
 
+    /**
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
+    protected abstract void ensureCanGetDistance(Coordinate coordinate);
 
+    /**
+     * @methodproperty primitive
+     */
+    protected abstract double doGetDistance(Coordinate other);
+
+    /**
+     * @methodproperty primitive
+     * @methodtype boolean-query
+     */
+    protected abstract boolean doIsEqual(Coordinate other);
+
+    //endregion
+
+    // region Protected Methods
 
     /**
      *
@@ -47,9 +93,7 @@ public abstract class AbstractCoordinate extends Coordinate {
         }
     }
 
-    protected abstract void ensureCanGetDistance(Coordinate coordinate);
 
-    protected abstract double doGetDistance(Coordinate other);
-
+    //endregion
 
 }

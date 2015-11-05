@@ -40,13 +40,11 @@ public class CartesianCoordinateTest {
         assertEquals(coordinate1, coordinate1_instance2);
     }
 
-
     @Test
     public void test_hashCode_returns_the_if_all_values_are_the_same() {
 
         assertEquals(coordinate1.hashCode(), coordinate1_instance2.hashCode());
     }
-
 
     @Test(expected = IllegalArgumentException.class)
     public void test_getDistance_throws_IllegalArgumentException() {

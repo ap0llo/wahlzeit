@@ -30,7 +30,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 
     public double getX() {
-
         return x;
     }
 
@@ -40,22 +39,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     public double getZ() {
         return z;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        CartesianCoordinate that = (CartesianCoordinate) o;
-
-        return Double.compare(that.x, x) == 0 && Double.compare(that.y, y) == 0 && Double.compare(that.z, z) == 0;
     }
 
     @Override
@@ -92,6 +75,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
                 pow(getZ() - other.getZ(), 2)
         );
 
+    }
+
+    @Override
+    protected boolean doIsEqual(Coordinate c) {
+        CartesianCoordinate other = (CartesianCoordinate)c;
+        return Double.compare(other.x, x) == 0 && Double.compare(other.y, y) == 0 && Double.compare(other.z, z) == 0;
     }
 
 }

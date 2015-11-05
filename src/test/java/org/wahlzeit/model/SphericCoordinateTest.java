@@ -35,19 +35,19 @@ public class SphericCoordinateTest {
 
         coordinate1 = new SphericCoordinate(42.5, 23.42);
         coordinate1_instance2 = new SphericCoordinate(42.5, 23.42);
-        distance_0_to_1 = 5273.5d;
+        distance_0_to_1 = 3581.1d;
 
         coordinate2 = new SphericCoordinate(13.37, 123.456);
-        distance_0_to_2 = 13614d;
+        distance_0_to_2 = 7517d;
 
         coordinate3 = new SphericCoordinate(50, 5);
-        distance_0_to_3 = 5580d;
+        distance_0_to_3 = 785.2d;
 
         coordinate4 = new SphericCoordinate(58,3);
-        distance_0_to_4 = 6455;
+        distance_0_to_4 = 471.5;
 
 
-        distance_2_to_4 = 10423.3d;
+        distance_2_to_4 = 7117.7d;
     }
 
     @Test
@@ -102,6 +102,11 @@ public class SphericCoordinateTest {
         new SphericCoordinate(0, 256);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test_Constructor_throws_IllegalArgumentException_for_negative_radius() {
+        new SphericCoordinate(0, 256, -1);
+    }
+
     @Test
     public void test_hashCode_is_equal_for_equal_instances() {
 
@@ -109,7 +114,7 @@ public class SphericCoordinateTest {
     }
 
     @Test
-    public void test_equals_returns_true_if_both_components_are_the_same() {
+    public void test_equals_returns_true_if_all_components_are_the_same() {
 
         assertEquals(zeroCoordinate, zeroCoordinate);
         assertEquals(coordinate1, coordinate1_instance2);
