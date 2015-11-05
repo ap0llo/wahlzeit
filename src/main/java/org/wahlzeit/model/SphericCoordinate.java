@@ -1,6 +1,7 @@
 package org.wahlzeit.model;
 
 import java.io.Serializable;
+
 import static java.lang.Math.*;
 
 public class SphericCoordinate extends AbstractCoordinate {
@@ -20,30 +21,30 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     /**
      * Instantiates a new instance of SphericCoordinate
-     * @param latitude The latitude value.
+     *
+     * @param latitude  The latitude value.
      * @param longitude The longitude value.
-     * @param radius The sphere's radius
+     * @param radius    The sphere's radius
      * @throws IllegalArgumentException Thrown if either longitude or latitude are not in the range [-360, 360]
      */
     public SphericCoordinate(double latitude, double longitude, double radius) {
 
-        if(latitude > 90d || latitude < -90d) {
+        if (latitude > 90d || latitude < -90d) {
             throw new IllegalArgumentException("Latitude must be in range [-90, 90]");
         }
 
-        if(longitude > 180d || longitude < -180d) {
+        if (longitude > 180d || longitude < -180d) {
             throw new IllegalArgumentException("Longitude must be in range [-180, 180]");
         }
 
-        if(!(radius >= 0)) {
-         throw new IllegalArgumentException("Radius must be positive");
+        if (!(radius >= 0)) {
+            throw new IllegalArgumentException("Radius must be positive");
         }
 
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
     }
-
 
 
     /**
@@ -73,6 +74,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     /**
      * Calculates the latitudinal distance
+     *
      * @param other The coordinate to calculate the distance to
      * @return Returns the difference between the two Coordinates' latitude componets
      * @throws IllegalArgumentException Thrown if other is null
@@ -87,6 +89,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     /**
      * Calculates the longitudinal distance
+     *
      * @param other The coordinate to calculate the distance to
      * @return Returns the difference between the two Coordinates' longitude componets
      * @throws IllegalArgumentException Thrown if other is null
@@ -118,32 +121,32 @@ public class SphericCoordinate extends AbstractCoordinate {
     @Override
     protected boolean doIsEqual(Coordinate c) {
 
-        SphericCoordinate other = (SphericCoordinate)c;
+        SphericCoordinate other = (SphericCoordinate) c;
         return this == other || (this.getLatitude() == other.getLatitude() && this.getLongitude() == other.getLongitude() && this.getRadius() == other.getRadius());
 
     }
 
     @Override
-    protected double doGetDistance(Coordinate other) {
+    protected double doGetDistance(Coordinate c) {
 
-        SphericCoordinate coordinate = (SphericCoordinate) other;
-        return this.asCartesianCoordinate().getDistance(coordinate.asCartesianCoordinate());
+        double x1 = radius * sin(toRadians(longitude)) * cos(toRadians(latitude));
+        double y1 = radius * sin(toRadians(longitude)) * sin(toRadians(latitude));
+        double z1 = radius * sin(toRadians(longitude));
+
+        SphericCoordinate other = (SphericCoordinate) c;
+
+        double x2 = other.radius * sin(toRadians(other.longitude)) * cos(toRadians(other.latitude));
+        double y2 = other.radius * sin(toRadians(other.longitude)) * sin(toRadians(other.latitude));
+        double z2 = other.radius * sin(toRadians(other.longitude));
+
+        return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(z1 - z2, 2));
     }
-
 
     @Override
     protected void ensureCanGetDistance(Coordinate coordinate) {
-        if(!(coordinate instanceof SphericCoordinate)) {
+        if (!(coordinate instanceof SphericCoordinate)) {
             throw new IllegalArgumentException("coordinate must be an instance of SphericCoordinate");
         }
-    }
-
-    protected CartesianCoordinate asCartesianCoordinate() {
-        return new CartesianCoordinate(
-                radius * sin(toRadians(longitude)) * cos(toRadians(latitude)),
-                radius * sin(toRadians(longitude)) * sin(toRadians(latitude)),
-                radius * sin(toRadians(longitude))
-        );
     }
 
 }
