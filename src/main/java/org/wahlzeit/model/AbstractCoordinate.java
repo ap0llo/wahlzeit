@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 public abstract class AbstractCoordinate extends Coordinate {
 
     //region Public Interface
@@ -16,8 +19,6 @@ public abstract class AbstractCoordinate extends Coordinate {
     public double getDistance(Coordinate other) {
 
         ensureCoordinateIsNotNull(other);
-        ensureCanGetDistance(other);
-
         return doGetDistance(other);
     }
 
@@ -33,9 +34,7 @@ public abstract class AbstractCoordinate extends Coordinate {
         if (this == other) {
             return true;
         }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
+        ensureCoordinateIsNotNull(other);
 
         return doIsEqual(other);
     }
@@ -46,7 +45,7 @@ public abstract class AbstractCoordinate extends Coordinate {
      */
     @Override
     public boolean equals(Object other) {
-        return other instanceof Coordinate && isEqual((Coordinate) other);
+        return other != null && other.getClass() == this.getClass() && isEqual((Coordinate) other);
     }
 
     //endregion
@@ -60,27 +59,31 @@ public abstract class AbstractCoordinate extends Coordinate {
     // force reimplementation of hashCode() in subclasses
     public abstract int hashCode();
 
-
-    /**
-     * @methodtype assertion
-     * @methodproperty primitive
-     */
-    protected abstract void ensureCanGetDistance(Coordinate coordinate);
-
-    /**
-     * @methodproperty primitive
-     */
-    protected abstract double doGetDistance(Coordinate other);
-
-    /**
-     * @methodproperty primitive
-     * @methodtype boolean-query
-     */
-    protected abstract boolean doIsEqual(Coordinate other);
-
     //endregion
 
     // region Protected Methods
+
+    /**
+     * @methodproperty primitive
+     */
+    protected double doGetDistance(Coordinate other) {
+
+        return sqrt(
+                pow(getX() - other.getX(), 2) +
+                        pow(getY() - other.getY(), 2) +
+                        pow(getZ() - other.getZ(), 2)
+        );
+
+    }
+
+
+    protected boolean doIsEqual(Coordinate other) {
+
+        return getX() == other.getX() &&
+                getY() == other.getY() &&
+                getZ() == other.getZ();
+
+    }
 
     /**
      *

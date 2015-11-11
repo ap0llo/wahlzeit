@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import static java.lang.Math.*;
-
 public class CartesianCoordinate extends AbstractCoordinate {
 
     private final double x;
@@ -29,18 +27,37 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
 
+    /***
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
     public double getX() {
         return x;
     }
 
+    /***
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
     public double getY() {
         return y;
     }
 
+    /***
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
     public double getZ() {
         return z;
     }
 
+    /***
+     * @methodtype get
+     * @methodproperty primitive
+     */
     @Override
     public int hashCode() {
         int result;
@@ -56,31 +73,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
 
         return result;
-    }
-
-
-    @Override
-    protected void ensureCanGetDistance(Coordinate coordinate) {
-
-    }
-
-    @Override
-    protected double doGetDistance(Coordinate c) {
-
-        CartesianCoordinate other = (CartesianCoordinate) c;
-
-        return sqrt(
-                pow(getX() - other.getX(), 2) +
-                pow(getY() - other.getY(), 2) +
-                pow(getZ() - other.getZ(), 2)
-        );
-
-    }
-
-    @Override
-    protected boolean doIsEqual(Coordinate c) {
-        CartesianCoordinate other = (CartesianCoordinate)c;
-        return Double.compare(other.x, x) == 0 && Double.compare(other.y, y) == 0 && Double.compare(other.z, z) == 0;
     }
 
 }

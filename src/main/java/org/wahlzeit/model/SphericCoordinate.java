@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import java.io.Serializable;
-
 import static java.lang.Math.*;
 
 public class SphericCoordinate extends AbstractCoordinate {
@@ -46,6 +44,33 @@ public class SphericCoordinate extends AbstractCoordinate {
         this.radius = radius;
     }
 
+
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
+    public double getX() {
+        return getRadius() * sin(toRadians(longitude)) * cos(toRadians(latitude));
+    }
+
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
+    public double getY() {
+        return getRadius() * sin(toRadians(longitude)) * sin(toRadians(latitude));
+    }
+
+    /**
+     * @methodtype get
+     * @methodproperty primitive
+     */
+    @Override
+    public double getZ() {
+        return getRadius() * sin(toRadians(longitude));
+    }
 
     /**
      * @methodtype get
@@ -114,39 +139,7 @@ public class SphericCoordinate extends AbstractCoordinate {
                 Double.valueOf(this.radius).hashCode();
     }
 
-    /**
-     * @methodtype boolean-query
-     * @methodproperty primitive
-     */
-    @Override
-    protected boolean doIsEqual(Coordinate c) {
 
-        SphericCoordinate other = (SphericCoordinate) c;
-        return this == other || (this.getLatitude() == other.getLatitude() && this.getLongitude() == other.getLongitude() && this.getRadius() == other.getRadius());
 
-    }
-
-    @Override
-    protected double doGetDistance(Coordinate c) {
-
-        double x1 = radius * sin(toRadians(longitude)) * cos(toRadians(latitude));
-        double y1 = radius * sin(toRadians(longitude)) * sin(toRadians(latitude));
-        double z1 = radius * sin(toRadians(longitude));
-
-        SphericCoordinate other = (SphericCoordinate) c;
-
-        double x2 = other.radius * sin(toRadians(other.longitude)) * cos(toRadians(other.latitude));
-        double y2 = other.radius * sin(toRadians(other.longitude)) * sin(toRadians(other.latitude));
-        double z2 = other.radius * sin(toRadians(other.longitude));
-
-        return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(z1 - z2, 2));
-    }
-
-    @Override
-    protected void ensureCanGetDistance(Coordinate coordinate) {
-        if (!(coordinate instanceof SphericCoordinate)) {
-            throw new IllegalArgumentException("coordinate must be an instance of SphericCoordinate");
-        }
-    }
 
 }
