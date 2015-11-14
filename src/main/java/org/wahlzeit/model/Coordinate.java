@@ -3,6 +3,7 @@ package org.wahlzeit.model;
 
 import java.io.Serializable;
 
+// implemented as abstract class instead of an interface to make it persistable using Objectify
 public abstract class Coordinate implements Serializable {
 
     /***
