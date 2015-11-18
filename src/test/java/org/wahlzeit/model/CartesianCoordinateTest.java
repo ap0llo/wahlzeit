@@ -19,17 +19,17 @@ public class CartesianCoordinateTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_x_is_NaN() {
         new CartesianCoordinate(Double.NaN, 0,0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_y_is_NaN() {
         new CartesianCoordinate(0, Double.NaN, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_z_is_NaN() {
         new CartesianCoordinate(0,0, Double.NaN);
     }
@@ -46,7 +46,7 @@ public class CartesianCoordinateTest {
         assertEquals(coordinate1.hashCode(), coordinate1_instance2.hashCode());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_getDistance_throws_IllegalArgumentException() {
 
         coordinate1.getDistance(null);

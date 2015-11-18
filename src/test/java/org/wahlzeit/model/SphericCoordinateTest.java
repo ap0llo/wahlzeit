@@ -62,47 +62,47 @@ public class SphericCoordinateTest {
         new SphericCoordinate(0, -180);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_1() {
         new SphericCoordinate(-91, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_less_than_minus90_2() {
         new SphericCoordinate(-145, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_1() {
         new SphericCoordinate(91, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_latitude_greater_than_90_2() {
         new SphericCoordinate(123, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_1() {
         new SphericCoordinate(0, -181);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_less_than_minus180_2() {
         new SphericCoordinate(0, -567);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_1() {
         new SphericCoordinate(0, 181);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_longitude_greater_than_180_2() {
         new SphericCoordinate(0, 256);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_for_negative_radius() {
         new SphericCoordinate(0, 256, -1);
     }
@@ -128,7 +128,7 @@ public class SphericCoordinateTest {
         assertFalse(coordinate1.equals(nullInstance));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_getDistance_throws_IllegalArgumentException() {
 
         zeroCoordinate.getDistance(null);
@@ -186,7 +186,7 @@ public class SphericCoordinateTest {
 
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_getLatitudinalDistance_throws_IllegalArgumentException() {
 
         zeroCoordinate.getLatitudinalDistance(null);
@@ -204,7 +204,7 @@ public class SphericCoordinateTest {
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void test_getLongitudinalDistance_throws_IllegalArgumentException() {
 
         zeroCoordinate.getLongitudinalDistance(null);

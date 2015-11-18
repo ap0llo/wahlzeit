@@ -7,9 +7,9 @@ public class SphericCoordinate extends AbstractCoordinate {
     // The radius of earth in kilometers for calculating the distance between two points
     private static final double EARTH_RADIUS = 6371d;
 
-    private final double latitude;
-    private final double longitude;
-    private final double radius;
+    private double latitude;
+    private double longitude;
+    private double radius;
 
 
     public SphericCoordinate(double latitude, double longitude) {
@@ -27,21 +27,21 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     public SphericCoordinate(double latitude, double longitude, double radius) {
 
-        if (latitude > 90d || latitude < -90d) {
-            throw new IllegalArgumentException("Latitude must be in range [-90, 90]");
-        }
+        // preconditions
+        assertIsValidLatitude(latitude);
+        assertIsValidLongitude(longitude);
+        assertIsValidRadius(radius);
 
-        if (longitude > 180d || longitude < -180d) {
-            throw new IllegalArgumentException("Longitude must be in range [-180, 180]");
-        }
-
-        if (!(radius >= 0)) {
-            throw new IllegalArgumentException("Radius must be positive");
-        }
-
+        // implementation
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+
+        //postconditions
+        assert this.latitude == latitude;
+        assert this.longitude == longitude;
+        assert this.radius == radius;
+        assertClassInvariants();
     }
 
 
@@ -81,6 +81,24 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     /**
+     * @methodtype set
+     * @methodproperty composed
+     */
+    public void setLatitude(double value) {
+
+        //preconditions
+        assertIsValidLatitude(value);
+
+
+        // method implementation
+        this.latitude = value;
+
+        //postconditions
+        assert this.latitude == value;
+        assertClassInvariants();
+    }
+
+    /**
      * @methodtype get
      * @methodproperty primitive
      */
@@ -89,11 +107,45 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     /**
+     * @methodtype set
+     * @methodproperty composed
+     */
+    public void setLongitude(double value) {
+
+        //preconditions
+        assertIsValidLongitude(value);
+
+        //method implementation
+        this.longitude = value;
+
+        //postconditions
+        assert this.longitude == value;
+        assertClassInvariants();
+    }
+
+    /**
      * @methodtype get
      * @methodproperty primitive
      */
     public double getRadius() {
         return radius;
+    }
+
+    /**
+     * @methodtype set
+     * @methodproperty composed
+     */
+    public void setRadius(double value) {
+
+        //preconditions
+        assertIsValidRadius(value);
+
+        //method implementation
+        this.radius = value;
+
+        //postconditions
+        assert this.radius == value;
+        assertClassInvariants();
     }
 
 
@@ -108,8 +160,19 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     public double getLatitudinalDistance(SphericCoordinate other) {
 
-        ensureCoordinateIsNotNull(other);
-        return abs(this.latitude - other.getLatitude());
+        // preconditions
+        assertCoordinateIsNotNull(other);
+
+        //method implementation
+        double result = abs(this.latitude - other.getLatitude());
+
+        //postconditions
+        assert result >= 0;
+        assert !Double.isNaN(result);
+
+        // method does not change object state => no need to check class invariants
+
+        return result;
     }
 
     /**
@@ -123,8 +186,19 @@ public class SphericCoordinate extends AbstractCoordinate {
      */
     public double getLongitudinalDistance(SphericCoordinate other) {
 
-        ensureCoordinateIsNotNull(other);
-        return abs(this.getLongitude() - other.getLongitude());
+        // preconditions
+        assertCoordinateIsNotNull(other);
+
+        // method implementation
+        double result = abs(this.getLongitude() - other.getLongitude());
+
+        //postconditions
+        assert result >= 0;
+        assert !Double.isNaN(result);
+
+        // method does not change object state => no need to check class invariants
+
+        return result ;
     }
 
     /**
@@ -139,7 +213,49 @@ public class SphericCoordinate extends AbstractCoordinate {
                 Double.valueOf(this.radius).hashCode();
     }
 
+    /**
+     * @methodtype assertion
+     * @methodproperty composed
+     */
+    @Override
+    protected void assertClassInvariants() {
 
+        super.assertClassInvariants();
 
+        assertIsValidLatitude(this.latitude);
+
+        assertIsValidLongitude(this.longitude);
+
+        assertIsValidRadius(this.radius);
+    }
+
+    /**
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
+    protected void assertIsValidLatitude(double value) {
+        assert !Double.isNaN(value) : "Latitude must be a number";
+        assert value <= 90d : "Latitude must be less or equal than 90 degrees";
+        assert value >= -90d : "Latitude must not be lass then -90 degrees";
+    }
+
+    /**
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
+    protected void assertIsValidLongitude(double value) {
+        assert !Double.isNaN(longitude) : "Longitude must be a number";
+        assert longitude <= 180d : "Longitude buse be less or equal than 180 degrees";
+        assert longitude >= -180d : "Longitude must not be less than -180 degrees";
+    }
+
+    /**
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
+    protected void assertIsValidRadius(double value) {
+        assert !Double.isNaN(radius) : "Radius must be a number";
+        assert radius >= 0 : "Radius must be positive or 0";
+    }
 
 }

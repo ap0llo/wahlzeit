@@ -18,7 +18,7 @@ public abstract class AbstractCoordinate extends Coordinate {
     @Override
     public double getDistance(Coordinate other) {
 
-        ensureCoordinateIsNotNull(other);
+        assertCoordinateIsNotNull(other);
         return doGetDistance(other);
     }
 
@@ -34,7 +34,7 @@ public abstract class AbstractCoordinate extends Coordinate {
         if (this == other) {
             return true;
         }
-        ensureCoordinateIsNotNull(other);
+        assertCoordinateIsNotNull(other);
 
         return doIsEqual(other);
     }
@@ -90,10 +90,8 @@ public abstract class AbstractCoordinate extends Coordinate {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    protected void ensureCoordinateIsNotNull(Coordinate coordinate){
-        if (coordinate == null) {
-            throw new IllegalArgumentException("coordinate must not be null");
-        }
+    protected void assertCoordinateIsNotNull(Coordinate coordinate){
+        assert coordinate != null: "Coordinate must not be null";
     }
 
 
@@ -106,18 +104,6 @@ public abstract class AbstractCoordinate extends Coordinate {
         // AbstractCoordinate does not have a state, so there are now invariants that need to be checked here
     }
 
-    /**
-     * Asserts that the specified double value is a number (!= NaN)
-     * @param value The value to check
-     * @param parameterName The name of the parameter to use for the exception being thrown
-     * @methodtype assertion
-     * @methodproperty primitive
-     */
-    protected void assertParameterIsNumber(double value, String parameterName){
-        if(Double.isNaN(value)) {
-            throw new IllegalArgumentException("Value of '" + parameterName + "' is not a number");
-        }
-    }
 
     //endregion
 

@@ -10,9 +10,9 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public CartesianCoordinate(double x, double y, double z) {
 
         // preconditions
-        assertParameterIsNumber(x, "x");
-        assertParameterIsNumber(y, "y");
-        assertParameterIsNumber(z, "z");
+        assertIsValidXCoordinate(x);
+        assertIsValidYCoordinate(y);
+        assertIsValidZCoordinate(z);
 
         this.x = x;
         this.y = y;
@@ -42,7 +42,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public void setX(double value) {
 
         //preconditions
-        assertParameterIsNumber(value, "value");
+        assertIsValidXCoordinate(value);
 
         // method implementation
         this.x = value;
@@ -68,7 +68,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public void setY(double value) {
 
         //preconditions
-        assertParameterIsNumber(value, "value");
+        assertIsValidYCoordinate(value);
 
         // method implementation
         this.y = value;
@@ -89,12 +89,12 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
     /***
      * @methodtype set
-     * @methodproperty primitive
+     * @methodproperty composed
      */
     public void setZ(double value) {
 
         //preconditions
-        assertParameterIsNumber(value, "value");
+        assertIsValidZCoordinate(value);
 
         //method implementaton
         this.z = value;
@@ -140,6 +140,22 @@ public class CartesianCoordinate extends AbstractCoordinate {
         assert !Double.isNaN(this.z);
     }
 
+
+    protected void assertIsValidXCoordinate(double value) {
+        assertIsValidCoordinate(value, "x");
+    }
+
+    protected void assertIsValidYCoordinate(double value) {
+        assertIsValidCoordinate(value, "y");
+    }
+
+    protected void assertIsValidZCoordinate(double value) {
+        assertIsValidCoordinate(value, "z");
+    }
+
+    protected void assertIsValidCoordinate(double value, String name) {
+        assert !Double.isNaN(value) : name + " coordinate must be a number";
+    }
 
 
 }
