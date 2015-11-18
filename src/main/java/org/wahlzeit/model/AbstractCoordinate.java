@@ -97,6 +97,28 @@ public abstract class AbstractCoordinate extends Coordinate {
     }
 
 
+    /**
+     * @methodtype assertion
+     * @methodtype primitive
+     */
+    protected void assertClassInvariants() {
+
+        // AbstractCoordinate does not have a state, so there are now invariants that need to be checked here
+    }
+
+    /**
+     * Asserts that the specified double value is a number (!= NaN)
+     * @param value The value to check
+     * @param parameterName The name of the parameter to use for the exception being thrown
+     * @methodtype assertion
+     * @methodproperty primitive
+     */
+    protected void assertParameterIsNumber(double value, String parameterName){
+        if(Double.isNaN(value)) {
+            throw new IllegalArgumentException("Value of '" + parameterName + "' is not a number");
+        }
+    }
+
     //endregion
 
 }
