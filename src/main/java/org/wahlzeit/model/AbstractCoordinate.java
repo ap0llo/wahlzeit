@@ -18,8 +18,17 @@ public abstract class AbstractCoordinate extends Coordinate {
     @Override
     public double getDistance(Coordinate other) {
 
+        //preconditions
         assertCoordinateIsNotNull(other);
-        return doGetDistance(other);
+
+        double result = doGetDistance(other);
+
+        //postconditions
+        assertIsValidDistance(result);
+        // method does not change object state => no need to check class invariants
+
+
+        return result;
     }
 
     /**
@@ -31,12 +40,20 @@ public abstract class AbstractCoordinate extends Coordinate {
     @Override
     public boolean isEqual(Coordinate other) {
 
+        //preconditions
+        assertCoordinateIsNotNull(other);
+
+
+        //method implementation
+
         if (this == other) {
             return true;
         }
-        assertCoordinateIsNotNull(other);
-
         return doIsEqual(other);
+
+        //postconditions
+        // method does not change object state => no need to check class invariants
+
     }
 
     /**
@@ -76,7 +93,6 @@ public abstract class AbstractCoordinate extends Coordinate {
 
     }
 
-
     protected boolean doIsEqual(Coordinate other) {
 
         return getX() == other.getX() &&
@@ -84,6 +100,7 @@ public abstract class AbstractCoordinate extends Coordinate {
                 getZ() == other.getZ();
 
     }
+
 
     /**
      *
@@ -94,7 +111,6 @@ public abstract class AbstractCoordinate extends Coordinate {
         assert coordinate != null: "Coordinate must not be null";
     }
 
-
     /**
      * @methodtype assertion
      * @methodtype primitive
@@ -104,6 +120,10 @@ public abstract class AbstractCoordinate extends Coordinate {
         // AbstractCoordinate does not have a state, so there are now invariants that need to be checked here
     }
 
+    protected void assertIsValidDistance(double distance) {
+        assert distance >= 0;
+        assert !Double.isNaN(distance);
+    }
 
     //endregion
 

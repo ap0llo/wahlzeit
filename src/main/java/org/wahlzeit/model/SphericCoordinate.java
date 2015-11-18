@@ -167,8 +167,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         double result = abs(this.latitude - other.getLatitude());
 
         //postconditions
-        assert result >= 0;
-        assert !Double.isNaN(result);
+        assertIsValidDistance(result);
 
         // method does not change object state => no need to check class invariants
 
@@ -193,8 +192,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         double result = abs(this.getLongitude() - other.getLongitude());
 
         //postconditions
-        assert result >= 0;
-        assert !Double.isNaN(result);
+        assertIsValidDistance(result);
 
         // method does not change object state => no need to check class invariants
 

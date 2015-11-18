@@ -140,7 +140,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
         assert !Double.isNaN(this.z);
     }
 
-
     protected void assertIsValidXCoordinate(double value) {
         assertIsValidCoordinate(value, "x");
     }
@@ -156,6 +155,5 @@ public class CartesianCoordinate extends AbstractCoordinate {
     protected void assertIsValidCoordinate(double value, String name) {
         assert !Double.isNaN(value) : name + " coordinate must be a number";
     }
-
 
 }
