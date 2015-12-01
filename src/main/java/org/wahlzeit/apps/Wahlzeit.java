@@ -20,6 +20,7 @@
 
 package org.wahlzeit.apps;
 
+import org.wahlzeit.design.Pattern;
 import org.wahlzeit.main.ServiceMain;
 import org.wahlzeit.services.LogBuilder;
 
@@ -32,6 +33,7 @@ import java.util.logging.Logger;
 /**
  * A simple ServletContextListener to startup and shutdown the Flowers application.
  */
+@Pattern(name="Observer", participants = { "ConcreteObserver" }, related = ServletContextListener.class)
 public class Wahlzeit implements ServletContextListener {
 
 	private static final Logger log = Logger.getLogger(Wahlzeit.class.getName());

@@ -26,6 +26,7 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import org.wahlzeit.design.Pattern;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.OfyService;
 
@@ -39,6 +40,7 @@ import java.util.logging.Logger;
  * 
  * @review
  */
+@Pattern(name="Adaptor", participants = "Adaptor", related = { OfyService.class })
 public class DatastoreAdapter extends ImageStorage {
 
 	private static final Logger log = Logger.getLogger(DatastoreAdapter.class.getName());
@@ -115,6 +117,7 @@ public class DatastoreAdapter extends ImageStorage {
  	 * @review
 	 */
 	@Entity
+	@Pattern(name="Adaptor", participants = "Adaptor", related = { Image.class })
 	public static class ImageWrapper {
 
 		// see https://cloud.google.com/datastore/docs/tools/administration

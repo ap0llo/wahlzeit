@@ -20,11 +20,13 @@
 
 package org.wahlzeit.services.mailing;
 
+import org.wahlzeit.design.Pattern;
 import org.wahlzeit.services.EmailAddress;
 
 /**
  * An EmailServer can send emails. Various implementations exist.
  */
+@Pattern(name = "Decorator", participants = { "Component" } )
 public interface EmailService {
 
 	/**

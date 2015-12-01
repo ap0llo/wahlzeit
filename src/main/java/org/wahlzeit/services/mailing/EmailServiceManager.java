@@ -20,11 +20,13 @@
 
 package org.wahlzeit.services.mailing;
 
+import org.wahlzeit.design.Pattern;
 import org.wahlzeit.main.ServiceMain;
 
 /**
  *
  */
+@Pattern(name= "singleton" )
 public class EmailServiceManager {
 
 	/**
