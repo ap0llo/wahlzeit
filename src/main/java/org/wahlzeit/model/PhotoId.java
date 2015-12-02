@@ -20,8 +20,6 @@
 
 package org.wahlzeit.model;
 
-import org.wahlzeit.design.Pattern;
-
 import java.io.Serializable;
 import java.util.Random;
 
@@ -30,7 +28,6 @@ import java.util.Random;
  * The number has an equivalent string for web access. 
  * This class also hands out the ids.
  */
-@Pattern(name = "Value Object")
 public class PhotoId implements Serializable {
 
 	/**
