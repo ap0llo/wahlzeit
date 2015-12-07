@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.MultiLevelHashMap;
+
 import static java.lang.Math.*;
 
 public class SphericCoordinate extends AbstractCoordinate {
@@ -7,15 +9,42 @@ public class SphericCoordinate extends AbstractCoordinate {
     // The radius of earth in kilometers for calculating the distance between two points
     private static final double EARTH_RADIUS = 6371d;
 
+
+    private static final MultiLevelHashMap<Double, Double, Double, SphericCoordinate> instances = new MultiLevelHashMap<>();
+
+    public static SphericCoordinate newInstance(double latitude, double longitude) {
+        return newInstance(latitude, longitude, EARTH_RADIUS);
+    }
+
+    public static synchronized SphericCoordinate newInstance(double latitude, double longitude, double radius) {
+
+        // preconditions
+        assertIsValidLatitude(latitude);
+        assertIsValidLongitude(longitude);
+        assertIsValidRadius(radius);
+
+        return getOrCreateInstance(latitude, longitude, radius);
+
+    }
+
+    protected static synchronized SphericCoordinate getOrCreateInstance(double latitude, double longitude, double radius) {
+
+        SphericCoordinate instance = instances.get(latitude, longitude, radius);
+        if(instance == null) {
+            instance = new SphericCoordinate(latitude, longitude, radius);
+            instances.put(latitude, longitude, radius, instance);
+        }
+
+        return instance;
+    }
+
+
     private final double latitude;
     private final double longitude;
     private final double radius;
 
 
-    public SphericCoordinate(double latitude, double longitude) {
 
-        this(latitude, longitude, EARTH_RADIUS);
-    }
 
     /**
      * Instantiates a new instance of SphericCoordinate
@@ -25,12 +54,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @param radius    The sphere's radius
      * @throws IllegalArgumentException Thrown if either longitude or latitude are not in the range [-360, 360]
      */
-    public SphericCoordinate(double latitude, double longitude, double radius) {
-
-        // preconditions
-        assertIsValidLatitude(latitude);
-        assertIsValidLongitude(longitude);
-        assertIsValidRadius(radius);
+    private SphericCoordinate(double latitude, double longitude, double radius) {
 
         // implementation
         this.latitude = latitude;
@@ -90,7 +114,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertIsValidLatitude(value);
 
         // method implementation
-        SphericCoordinate result = new SphericCoordinate(value, this.getLongitude(), this.getRadius());
+        SphericCoordinate result = getOrCreateInstance(value, this.getLongitude(), this.getRadius());
 
         //postconditions
         assert result.getLatitude() == value;
@@ -116,7 +140,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertIsValidLongitude(value);
 
         //method implementation
-        SphericCoordinate result = new SphericCoordinate(this.getLatitude(), value, this.getRadius());
+        SphericCoordinate result = getOrCreateInstance(this.getLatitude(), value, this.getRadius());
 
         //postconditions
         assert result.getLongitude() == value;
@@ -143,7 +167,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertIsValidRadius(value);
 
         //method implementation
-        SphericCoordinate result = new SphericCoordinate(this.getLatitude(), this.getLongitude(), value);
+        SphericCoordinate result = getOrCreateInstance(this.getLatitude(), this.getLongitude(), value);
 
         //postconditions
         assert result.getRadius() == value;
@@ -234,7 +258,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    protected void assertIsValidLatitude(double value) {
+    protected static void assertIsValidLatitude(double value) {
         assert !Double.isNaN(value) : "Latitude must be a number";
         assert value <= 90d : "Latitude must be less or equal than 90 degrees";
         assert value >= -90d : "Latitude must not be lass then -90 degrees";
@@ -244,7 +268,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    protected void assertIsValidLongitude(double value) {
+    protected static void assertIsValidLongitude(double longitude) {
         assert !Double.isNaN(longitude) : "Longitude must be a number";
         assert longitude <= 180d : "Longitude buse be less or equal than 180 degrees";
         assert longitude >= -180d : "Longitude must not be less than -180 degrees";
@@ -254,7 +278,7 @@ public class SphericCoordinate extends AbstractCoordinate {
      * @methodtype assertion
      * @methodproperty primitive
      */
-    protected void assertIsValidRadius(double value) {
+    protected static void assertIsValidRadius(double radius) {
         assert !Double.isNaN(radius) : "Radius must be a number";
         assert radius >= 0 : "Radius must be positive or 0";
     }
@@ -272,7 +296,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     @Override
     protected AbstractCoordinate doSetZ(double z) {
-        return new SphericCoordinate(this.getX(), this.getY(), z);
+        return getOrCreateInstance(this.getX(), this.getY(), z);
     }
 
     private AbstractCoordinate convertFromCartesianCoordinates(double x, double y, double z) {
@@ -281,7 +305,7 @@ public class SphericCoordinate extends AbstractCoordinate {
         double latitude = atan(y / x);
         double longitude = acos( z / radius);
 
-        return new SphericCoordinate(latitude, longitude, radius);
+        return getOrCreateInstance(latitude, longitude, radius);
     }
 
 

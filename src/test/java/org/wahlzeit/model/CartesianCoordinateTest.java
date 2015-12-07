@@ -7,31 +7,25 @@ import static java.lang.Math.*;
 
 public class CartesianCoordinateTest {
 
-    private CartesianCoordinate coordinate1 = new CartesianCoordinate(1,2,3);
-    private CartesianCoordinate coordinate1_instance2 = new CartesianCoordinate(1,2,3);
-    private CartesianCoordinate coordinate2 = new CartesianCoordinate(4,5,6);
+    private CartesianCoordinate coordinate1 = CartesianCoordinate.newInstance(1,2,3);
+    private CartesianCoordinate coordinate1_instance2 = CartesianCoordinate.newInstance(1,2,3);
+    private CartesianCoordinate coordinate2 = CartesianCoordinate.newInstance(4,5,6);
 
-
-    @Before
-    public void setUp() {
-        coordinate1 = new CartesianCoordinate(1,2,3);
-        coordinate1_instance2 = new CartesianCoordinate(1,2,3);
-    }
 
 
     @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_x_is_NaN() {
-        new CartesianCoordinate(Double.NaN, 0,0);
+        CartesianCoordinate.newInstance(Double.NaN, 0,0);
     }
 
     @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_y_is_NaN() {
-        new CartesianCoordinate(0, Double.NaN, 0);
+        CartesianCoordinate.newInstance(0, Double.NaN, 0);
     }
 
     @Test(expected = AssertionError.class)
     public void test_Constructor_throws_IllegalArgumentException_if_z_is_NaN() {
-        new CartesianCoordinate(0,0, Double.NaN);
+        CartesianCoordinate.newInstance(0,0, Double.NaN);
     }
 
     @Test

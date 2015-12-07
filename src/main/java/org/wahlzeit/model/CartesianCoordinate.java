@@ -1,18 +1,42 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.MultiLevelHashMap;
+
 public class CartesianCoordinate extends AbstractCoordinate {
+
+    private static MultiLevelHashMap<Double, Double, Double, CartesianCoordinate> instances = new MultiLevelHashMap<>();
+
+
+    public synchronized static CartesianCoordinate newInstance(double x, double y, double z) {
+
+        // preconditions
+        assertIsValidXCoordinate(x);
+        assertIsValidYCoordinate(y);
+        assertIsValidZCoordinate(z);
+
+        return getOrCreateInstance(x, y, z);
+    }
+
+    protected synchronized static CartesianCoordinate getOrCreateInstance(double x, double y, double z) {
+
+        CartesianCoordinate instance = instances.get(x, y, z);
+
+        if(instance == null) {
+            instance = new CartesianCoordinate(x, y, z);
+            instances.put(x, y, z, instance);
+        }
+
+        return instance;
+    }
+
+
 
     private final double x;
     private final double y;
     private final double z;
 
 
-    public CartesianCoordinate(double x, double y, double z) {
-
-        // preconditions
-        assertIsValidXCoordinate(x);
-        assertIsValidYCoordinate(y);
-        assertIsValidZCoordinate(z);
+    private CartesianCoordinate(double x, double y, double z) {
 
         this.x = x;
         this.y = y;
@@ -75,33 +99,35 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
 
-
     /**
      * @methodtype set
-     * @methodproperty primitive
-     */
-    protected AbstractCoordinate doSetY(double value) {
-
-        return new CartesianCoordinate(this.getX(), value, this.getZ());
-    }
-
-    /**
-     * @methodtype set
-     * @methodproperty primitive
+     * @methodproperty composite
      */
     @Override
     protected AbstractCoordinate doSetX(double value) {
 
-        return new CartesianCoordinate(value, this.getY(), this.getZ());
+        return  getOrCreateInstance(value, this.getY(), this.getZ());
     }
+
+    /**
+     * @methodtype set
+     * @methodproperty composite
+     */
+    protected AbstractCoordinate doSetY(double value) {
+
+        return getOrCreateInstance(this.getX(), value, this.getZ());
+    }
+
 
     /***
      * @methodtype set
-     * @methodproperty primitive
+     * @methodproperty composite
      */
     protected AbstractCoordinate doSetZ(double value) {
 
-        return new CartesianCoordinate(this.getX(), this.getY(), value);
+        return getOrCreateInstance(this.getX(), this.getY(), value);
     }
+
+
 
 }

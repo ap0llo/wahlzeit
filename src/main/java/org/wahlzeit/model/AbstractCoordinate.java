@@ -1,9 +1,12 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.utils.MultiLevelHashMap;
+
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
 public abstract class AbstractCoordinate extends Coordinate {
+
 
     //region Public Interface
 
@@ -70,7 +73,6 @@ public abstract class AbstractCoordinate extends Coordinate {
 
     @Override
     public Coordinate setX(double value){
-
 
         //preconditions
         assertIsValidXCoordinate(value);
@@ -142,6 +144,7 @@ public abstract class AbstractCoordinate extends Coordinate {
 
     protected abstract AbstractCoordinate doSetZ(double value);
 
+
     //endregion
 
     // region Protected Methods
@@ -192,19 +195,19 @@ public abstract class AbstractCoordinate extends Coordinate {
         assert !Double.isNaN(distance);
     }
 
-    protected void assertIsValidXCoordinate(double value) {
+    protected static void assertIsValidXCoordinate(double value) {
         assertIsValidCoordinate(value, "x");
     }
 
-    protected void assertIsValidYCoordinate(double value) {
+    protected static void assertIsValidYCoordinate(double value) {
         assertIsValidCoordinate(value, "y");
     }
 
-    protected void assertIsValidZCoordinate(double value) {
+    protected static void assertIsValidZCoordinate(double value) {
         assertIsValidCoordinate(value, "z");
     }
 
-    protected void assertIsValidCoordinate(double value, String name) {
+    protected static void assertIsValidCoordinate(double value, String name) {
         assert !Double.isNaN(value) : name + " coordinate must be a number";
     }
 
