@@ -65,6 +65,65 @@ public abstract class AbstractCoordinate extends Coordinate {
         return other != null && other.getClass() == this.getClass() && isEqual((Coordinate) other);
     }
 
+    @Override
+    public abstract double getX();
+
+    @Override
+    public Coordinate setX(double value){
+
+
+        //preconditions
+        assertIsValidXCoordinate(value);
+
+        // method implementation
+        //TODO: Sharing
+        AbstractCoordinate result =  doSetX(value);
+
+        //postconditions
+        assert result.getX() == value;
+
+        return result;
+    }
+
+    @Override
+    public abstract double getY();
+
+    @Override
+    public Coordinate setY(double value){
+
+
+        //preconditions
+        assertIsValidYCoordinate(value);
+
+        //TODO: Sharing
+        AbstractCoordinate result = doSetY(value);
+
+        //postconditions
+        assert result.getY() == value;
+
+        return result;
+    }
+
+    @Override
+    public abstract double getZ();
+
+    @Override
+    public Coordinate setZ(double value){
+
+        //preconditions
+        assertIsValidZCoordinate(value);
+
+        //method implementaton
+        Coordinate result = doSetZ(value);
+
+        //postconditions
+        assert result.getZ() == value;
+
+        //TODO: Sharing
+        return doSetZ(value);
+    }
+
+
     //endregion
 
     // region Inheritance interface
@@ -75,6 +134,13 @@ public abstract class AbstractCoordinate extends Coordinate {
      */
     // force reimplementation of hashCode() in subclasses
     public abstract int hashCode();
+
+
+    protected abstract AbstractCoordinate doSetX(double value);
+
+    protected abstract AbstractCoordinate doSetY(double value);
+
+    protected abstract AbstractCoordinate doSetZ(double value);
 
     //endregion
 
@@ -101,7 +167,6 @@ public abstract class AbstractCoordinate extends Coordinate {
 
     }
 
-
     /**
      *
      * @methodtype assertion
@@ -117,13 +182,32 @@ public abstract class AbstractCoordinate extends Coordinate {
      */
     protected void assertClassInvariants() {
 
-        // AbstractCoordinate does not have a state, so there are now invariants that need to be checked here
+        assert !Double.isNaN(this.getX());
+        assert !Double.isNaN(this.getY());
+        assert !Double.isNaN(this.getZ());
     }
 
     protected void assertIsValidDistance(double distance) {
         assert distance >= 0;
         assert !Double.isNaN(distance);
     }
+
+    protected void assertIsValidXCoordinate(double value) {
+        assertIsValidCoordinate(value, "x");
+    }
+
+    protected void assertIsValidYCoordinate(double value) {
+        assertIsValidCoordinate(value, "y");
+    }
+
+    protected void assertIsValidZCoordinate(double value) {
+        assertIsValidCoordinate(value, "z");
+    }
+
+    protected void assertIsValidCoordinate(double value, String name) {
+        assert !Double.isNaN(value) : name + " coordinate must be a number";
+    }
+
 
     //endregion
 

@@ -22,13 +22,27 @@ public abstract class Coordinate implements Serializable {
     public abstract double getX();
 
     /***
+     * @methodtype set
+     */
+    public abstract Coordinate setX(double value);
+
+    /***
      * @methodtype get
      */
     public abstract double getY();
+
+    /**
+     * @methodtype set
+     */
+    public abstract Coordinate setY(double value);
 
     /***
      * @methodtype get
      */
     public abstract double getZ();
 
+    /***
+     * @methodtype set
+     */
+    public abstract Coordinate setZ(double value);
 }

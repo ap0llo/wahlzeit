@@ -2,9 +2,9 @@ package org.wahlzeit.model;
 
 public class CartesianCoordinate extends AbstractCoordinate {
 
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
 
     public CartesianCoordinate(double x, double y, double z) {
@@ -35,23 +35,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
         return x;
     }
 
-    /**
-     * @methodtype set
-     * @methodproperty composed
-     */
-    public void setX(double value) {
-
-        //preconditions
-        assertIsValidXCoordinate(value);
-
-        // method implementation
-        this.x = value;
-
-        //postconditions
-        assert this.x == value;
-        assertClassInvariants();
-    }
-
     /***
      * @methodtype get
      * @methodproperty primitive
@@ -61,23 +44,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
         return y;
     }
 
-    /**
-     * @methodtype set
-     * @methodproperty composed
-     */
-    public void setY(double value) {
-
-        //preconditions
-        assertIsValidYCoordinate(value);
-
-        // method implementation
-        this.y = value;
-
-        //postconditions
-        assert this.y == value;
-        assertClassInvariants();
-    }
-
     /***
      * @methodtype get
      * @methodproperty primitive
@@ -85,23 +51,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
     @Override
     public double getZ() {
         return z;
-    }
-
-    /***
-     * @methodtype set
-     * @methodproperty composed
-     */
-    public void setZ(double value) {
-
-        //preconditions
-        assertIsValidZCoordinate(value);
-
-        //method implementaton
-        this.z = value;
-
-        //postconditions
-        assert this.z == value;
-        assertClassInvariants();
     }
 
     /***
@@ -126,34 +75,33 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
 
+
     /**
-     * @methodtype assertion
+     * @methodtype set
+     * @methodproperty primitive
+     */
+    protected AbstractCoordinate doSetY(double value) {
+
+        return new CartesianCoordinate(this.getX(), value, this.getZ());
+    }
+
+    /**
+     * @methodtype set
      * @methodproperty primitive
      */
     @Override
-    protected void assertClassInvariants(){
+    protected AbstractCoordinate doSetX(double value) {
 
-        super.assertClassInvariants();
-
-        assert !Double.isNaN(this.x);
-        assert !Double.isNaN(this.y);
-        assert !Double.isNaN(this.z);
+        return new CartesianCoordinate(value, this.getY(), this.getZ());
     }
 
-    protected void assertIsValidXCoordinate(double value) {
-        assertIsValidCoordinate(value, "x");
-    }
+    /***
+     * @methodtype set
+     * @methodproperty primitive
+     */
+    protected AbstractCoordinate doSetZ(double value) {
 
-    protected void assertIsValidYCoordinate(double value) {
-        assertIsValidCoordinate(value, "y");
-    }
-
-    protected void assertIsValidZCoordinate(double value) {
-        assertIsValidCoordinate(value, "z");
-    }
-
-    protected void assertIsValidCoordinate(double value, String name) {
-        assert !Double.isNaN(value) : name + " coordinate must be a number";
+        return new CartesianCoordinate(this.getX(), this.getY(), value);
     }
 
 }
