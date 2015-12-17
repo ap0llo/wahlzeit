@@ -59,8 +59,12 @@ public class ConcertPhotoFactory extends PhotoFactory {
     @Override
     public ConcertPhoto createPhoto() {
         ConcertPhoto result = new ConcertPhoto();
-        result.setArtistName(UUID.randomUUID().toString());
-        result.setGenre(UUID.randomUUID().toString());
+
+        //sample data
+        ConcertType concertType = ConcertTypeFactory.getInstance().getConcertType("Aritst", "Genre", "Tour");
+        Concert concert = concertType.createInstance();
+        result.setConcert(concert);
+
         return result;
     }
 
@@ -70,8 +74,12 @@ public class ConcertPhotoFactory extends PhotoFactory {
     @Override
     public ConcertPhoto createPhoto(PhotoId id) {
         ConcertPhoto result = new ConcertPhoto(id);
-        result.setArtistName(UUID.randomUUID().toString());
-        result.setGenre(UUID.randomUUID().toString());
+
+        //sample data
+        ConcertType concertType = ConcertTypeFactory.getInstance().getConcertType("Aritst", "Genre", "Tour");
+        Concert concert = concertType.createInstance();
+        result.setConcert(concert);
+
         return result;
     }
 
