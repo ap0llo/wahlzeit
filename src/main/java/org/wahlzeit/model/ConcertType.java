@@ -34,13 +34,7 @@ public class ConcertType implements Serializable {
         return this.artist;
     }
 
-    /**
-     * @methodtype set
-     * @methodproperty primitive
-     */
-    public void setArtist(String value) {
-        this.artist = value;
-    }
+
 
     /**
      * @methodtype get
@@ -50,13 +44,7 @@ public class ConcertType implements Serializable {
         return this.genre;
     }
 
-    /**
-     * @methodtype set
-     * @methodproperty primitive
-     */
-    public void setGenre(String value) {
-        this.genre = value;
-    }
+
 
     /**
      * @methodtype get
@@ -66,12 +54,6 @@ public class ConcertType implements Serializable {
         return this.tourName;
     }
 
-    /**
-     * @methodtype set
-     * @methodproperty primitive
-     */
-    public void setTourName(String value) {
-        this.tourName = value;
-    }
+
 
 }
